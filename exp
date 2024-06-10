@@ -1,0 +1,384 @@
+EXP_1
+____________________________________________________________________________
+Objective-1(ADDITION, SUBTRACTION, MULTIPLICATION,DIVISION)
+    mov ax, 0000h
+    mov ds, ax
+    mov ax, 1000h
+    mov cx, ax
+    mov bx, 2000h
+    add ax, bx
+    mov [5000h], ax
+    mov ax, cx
+    sub ax, bx
+    mov [5002h], ax
+    mov ax, cx
+    mul bx
+    mov [5004h], ax
+    mov [5006h], dx
+    mov dx, 0000h
+    div bx
+    mov [5008h], ax
+    mov [500Ah], dx
+    hlt
+
+Objective-2(SWAPPING AND STORE DATA)
+    mov ax, 0000h
+    mov ds, ax
+    mov si, 2000h
+    mov al, [si]
+    mov cl, al
+    ror al, 04h
+    inc si
+    mov bl, al
+    add al, cl
+    xor bl, cl
+    or al, bl
+    inc si
+    mov [si], al
+    hlt
+
+Objective-3(GRAY CODE)
+    mov ax, 0000h
+    mov ds, ax
+    mov al, 12h
+    mov bl, al
+    shr al, 01h
+    xor al, bl
+    mov [2000h], al
+    hlt
+
+Objective-4(2'S COMPLEMENT)
+    mov al, 0000h
+    mov ds, ax
+    not al
+    add al, 01h
+    mov [2000h], al
+    hlt
+----------------------------------------------------------------------
+EXP_2
+_____________________________________________________________
+Objective-1(SUM AND AVERAGE)
+    MOV AX, 0000H
+    MOV DX, AX
+    MOV SI, 2000H
+    MOV CL, [SI]
+    MOV CH, 00H
+    MOV BX, CX
+
+    L1: INC SI
+        INC SI
+        ADD AX, [SI]
+        JNC L2
+        INC CH
+    
+    L2: DEC CL
+        JNZ L1
+        INC SI
+        INC SI
+
+    MOV [SI], AX
+    INC SI
+    MOV [SI], CH
+    MOV DL, CH
+    DIV BX
+    INC SI
+    INC SI
+    MOV [SI], AX
+    INC SI  
+    INC SI
+    MOV [SI], DX
+    HLT
+
+Objective-2(COUNT NO OF 0'S)
+     MOV AX, 0000H
+     MOV DS, AX
+     MOV SI, 2000H
+     MOV AL, [SI]
+     MOV CL, 08H
+     MOV CH, 00H
+
+     L1: SHR AL, 01H
+         JC L2
+         INC CH
+    
+     L2: DEC CL
+         JNZ L1
+         
+     INC SI
+     MOV [SI] CH          
+     HLT
+
+Objective-3(MOVE BLOCK 1 LOCATION TO ANOTHER)
+     MOV AX, 0000H
+     MOV DX, AX
+     MOV SI, 2000H
+     MOV DI, 5000H
+     MOV CL, 05H
+
+     L1: MOV BX, [SI]
+         MOV [DI], BX
+         INC SI
+         INC SI
+         INC DI
+         INC DI
+         DEC CL
+         JNZ L1
+     HLT
+
+Objective-4(MULTIPLICATION OF 2 16 BIT NUMBER)
+     MOV AX, 0000H
+     MOV DX, AX
+     MOV BX, [2000H]
+     MOV CX, [2002H]
+     MOV DX, 0000H
+     MOV AX, 0000H
+
+     L1: ADD AX, BX
+         JNC L2
+         INC DX
+    
+     L2: DEC CX
+         JNZ L1
+         MOV [2004H], AX
+         MOV [2006H], DX
+     HLT
+
+----------------------------------------------------------------------
+EXP_3
+_____________________________________________________________
+Objective-1(LARGEST)
+      .DATA
+            COUNT DB 06
+            VALUE DB 09H, 0FH, 14H, 45H, 24H, 3FH
+            res DB 0
+
+      .CODE
+      MAIN PROC
+
+            MOV AX, DATA
+            MOV DS, AX
+            MOV CL, COUNT
+            DEC CL
+            LEA SI, VALUE
+            MOV AL, [SI]
+      UP:
+            INC SI
+            CMP AL, [SI]
+            JNZ NXT 
+            MOV AL, [SI]
+      NXT: 
+            DEC CL
+            JNZ UP
+            LEA DI, [res]
+            MOV [DL], AL
+      END MAIN
+
+Objective-1(SMALLEST)
+      .DATA
+            COUNT DB 06
+            VALUE DB 09H, 0FH, 14H, 45H, 24H, 3FH
+            res DB 0
+
+      .CODE
+      MAIN PROC
+
+            MOV AX, DATA
+            MOV DS, AX
+            MOV CL, COUNT
+            DEC CL
+            LEA SI, VALUE
+            MOV AL, [SI]
+      UP:
+            INC SI
+            CMP AL, [SI]
+            JC NXT 
+            MOV AL, [SI]
+      NXT: 
+            DEC CL
+            JNZ UP
+            LEA DI, [res]
+            MOV [DL], AL
+      END MAIN
+
+Objective-2(ASCENDING)
+      .DATA
+            COUNT DB 06
+            VALUE DB 09H, 0FH, 14H, 45H, 24H, 3FH
+            res DB 0
+
+      .CODE
+      MAIN PROC
+
+            MOV AX, DATA
+            MOV DS, AX
+            MOV CH, COUNT
+            DEC CH
+      UP2:
+            MOV CL, CH
+            LEA SI, VALUE
+      UP1:
+            MOV AL, [SI]
+            CMP AL, [SI+1]
+            JC DOWN
+            MOV DL, [SI+1] 
+            XCHG [SI], DL
+            MOV [SI+1]. DL
+      DOWN: 
+            INC SI
+            DEC CL
+            JNZ UP1
+            DEC CH
+            JNZ UP2
+      END MAIN
+
+Objective-2(DESCENDING)
+      .DATA
+            COUNT DB 06
+            VALUE DB 09H, 0FH, 14H, 45H, 24H, 3FH
+            res DB 0
+
+      .CODE
+      MAIN PROC
+
+            MOV AX, DATA
+            MOV DS, AX
+            MOV CH, COUNT
+            DEC CH
+      UP2:
+            MOV CL, CH
+            LEA SI, VALUE
+      UP1:
+            MOV AL, [SI]
+            CMP AL, [SI+1]
+            JNC DOWN
+            MOV DL, [SI+1] 
+            XCHG [SI], DL
+            MOV [SI+1]. DL
+      DOWN: 
+            INC SI
+            DEC CL
+            JNZ UP1
+            DEC CH
+            JNZ UP2
+      END MAIN
+
+----------------------------------------------------------------------
+EXP_4
+_____________________________________________________________
+Objective-1(ADDITION , SUBTRACTION OF 32 BIT NUMBER)
+     .global_start 
+     _start:
+
+          mov r0, =0x40
+          mov r1, =0x50
+          adds r2, r0, r1
+          subs r3, r0, r1
+          mul r4, r0, r1
+     my_exit: b my_exit
+
+Objective-2(ADDITION, SUBTRACTION, MULTIPLICATION,DIVISION OF 32 BIT NUMBER)
+     .global _start
+     _start:
+	
+	ldr r0, =0x10100000
+	ldr r1, [r0], #4
+	ldr r2, [r0], #4
+	add r3, r1, r2
+        str r3, [r0], #4
+	subs r4, r1, r2
+        str r4, [r0], #4
+	mul r5, r1, r2
+	str r5, [r0]
+     my_exit:b my_exit
+
+Objective-3(PERFORM AND,OR,XOR & NOT)
+     .global _start
+     _start:
+	ldr r0, =0x10100000
+	ldr r1, [r0], #4
+	ldr r2, [r0], #4
+	and r3, r2, r1	
+	str r3, [r0], #4
+	orr r4, r2, r1	
+	str r4, [r0], #4
+	eor r5, r2, r1	
+	str r5, [r0], #4
+	mvn r6, r1		
+	str r6, [r0]
+     my_exit:b my_exit 
+    
+----------------------------------------------------------------------
+EXP_5
+_____________________________________________________________    
+
+Objective-1(LARGEST IN ARRAY)
+    .global _start
+    _start:
+	
+	 ldr r0, =count
+	 ldr r1, [r0]
+	 mov r4, =0xff
+	 ldr r2, =array
+    back:  ldr r3, [r2], #4
+	   cmp r4, r3
+	   blt fwd
+           mov r4, r3
+
+    fwd:  subs r1, r1, #01
+          bne back
+          str r4, [r2]
+    exit: b exit
+    .data
+	 count:	.word 0x05
+	 array: .word 0x15, 0x35, 0x45, 0x10, 0x4f 
+    result: 
+
+  Objectiv-2(SMALLEST IN ARRAY)
+        .global _start
+        _start:
+	
+	   ldr r0, =count
+           ldr r1, [r0]
+	   ldr r3, =array
+	   ldr r4, =even
+	   ldr r5, =odd	
+        back:	
+		ldr r0, [r3], #4
+		ands r7 ,r6, #01
+		beq fwd
+		str r6, [r5], #4
+		b fwd1
+        fwd:	str r6, [r4], #4
+        fwd1: 	subs r1, r1, #01
+		bne back
+        exit: b exit		
+        .data
+		count:	.word 0x07
+		array:	.word 0x15, 0x35, 0x32, 0x45, 0x10, 0x4F, 0x34
+		odd: 	.word 0,0,0,0,0
+		even: 	.word 0,0,0,0,0
+        result:
+
+Objective-3(EVEN & ODD NUMBER SEPARATE)
+     .global _start
+        _start:
+	
+	   ldr r0, =count
+           ldr r1, [r0]
+	   mov r4, =0xff
+	   ldr r2, =array	
+        back:	
+		ldr r3, [r2], #4
+		cmp r4, r3
+		blt fwd
+		mov r4, r3
+        fwd1: 	subs r1, r1, #01
+		bne back
+                str r4, [r2]
+        exit: b exit		
+        .data
+		count:	.word 0x05
+		array:	.word 0x15, 0x35, 0x45, 0x10, 0x4F
+        result:
+
+   
