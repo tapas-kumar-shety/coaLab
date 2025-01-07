@@ -1,0 +1,64 @@
+DNAT
+1 .int gig0/0/0
+2. ip nat inside
+3. exit
+4. int gig0/0/1
+5.  ip nat outside
+6. ex
+7 .access-list 10 permit 172.168.0.0 0.0.255.255
+8. ip nat pool 100 200.100.10.3 200.100.10.5 netmask 255.255.255.0
+9. ip nat inside source list 10 pool 100
+10. sh ip nat tr
+
+
+for pat
+
+1 .int gig0/0/0
+2. ip nat inside
+3. exit
+4. int gig0/0/1
+5.  ip nat outside
+6. ex
+7 .access-list 10 permit 172.168.0.0 0.0.255.255
+8.ip nat inside source list 10 interface gig0/0/1 overload
+9. sh ip nat tr
+
+static nat:
+ip nat inside source static pc(ipadd) (router's gig0/0/1 which is the global outside)
+sh ip nat tr
+
+
+FOR PAT
+
+in pc's cmdp:
+ftp (servers ip addres)
+put text1.txt
+
+do in the 2nd pc:
+ftp serverip
+get filename
+
+
+FOR TELNET:
+
+1st in routers cli
+line vty 0 5
+Router(config-line)#password tks1
+Router(config-line)#enable secret tks2
+
+2nd step in pc's cmdp
+
+Cisco Packet Tracer PC Command Line 1.0
+C:\>telnet 10.10.10.1
+Trying 10.10.10.1 ...Open
+
+
+User Access Verification
+
+Password: 
+Password: 
+Router>en
+Password: 
+Router#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#
